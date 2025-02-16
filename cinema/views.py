@@ -1,4 +1,6 @@
 from datetime import datetime
+from rest_framework.permissions import IsAuthenticated
+
 
 from django.db.models import F, Count
 from rest_framework import viewsets
@@ -132,7 +134,7 @@ class OrderPagination(PageNumberPagination):
 
 class OrderViewSet(viewsets.ModelViewSet):
     authentication_classes = (TokenAuthentication,)
-    permission_classes = (permissions.IsAdminOrIfAuthenticatedReadOnly,)
+    permission_classes = (IsAuthenticated,)
     queryset = Order.objects.prefetch_related(
         "tickets__movie_session__movie", "tickets__movie_session__cinema_hall"
     )
